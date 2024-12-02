@@ -13,8 +13,9 @@ import { convertHeicToJpg } from './heifConverter.js'; // Ensure the correct fil
 
 export const generateCard = async ({ photoPath, templatePath, name, state, city, phone }, outputDir) => {
     // Canvas dimensions
-    const fallBackPhoto= path.join(__dirname, '../../public/templates/aklish.jpg');
-    // console.log(fallBackPhoto)
+    const fallBackPhoto= path.join(__dirname, '../../public/templates/akhilesh.png');
+    console.log("----------------------------------------")
+     console.log(fallBackPhoto)
     const width = 1080;
     const height = 1350;
     const canvas = createCanvas(width, height);
@@ -27,15 +28,13 @@ export const generateCard = async ({ photoPath, templatePath, name, state, city,
             console.log("file created",outputDir)
             fs.mkdirSync(outputDir, { recursive: true });
         }
-        else{
-            console.log("file already exists",outputDir)
-
-        }
+        
 
         // Handle HEIC/HEIF image conversion
         const fileExtension = path.extname(photoPath).toLowerCase();
         if (fileExtension === '.heic' || fileExtension === '.heif') {
             console.log("HEIC/HEIF image detected. Converting...");
+            
             try {
                 photoPath = await convertHeicToJpg(photoPath);
             } catch (error) {
@@ -68,12 +67,16 @@ export const generateCard = async ({ photoPath, templatePath, name, state, city,
             }
         }
         else{
-            const userPhoto = await loadImage(fallBackPhoto);
-            ctx.drawImage(userPhoto, 40, 800, 400, 400); // Adjust position and size as needed
-            ctx.lineWidth = 5;
-            ctx.strokeStyle = 'white';
-            ctx.strokeRect(40, 800, 400, 400); // Border around photo
-
+            try {
+                const userPhoto = await loadImage(fallBackPhoto);
+                ctx.drawImage(userPhoto, 40, 800, 400, 400); // Adjust position and size as needed
+                ctx.lineWidth = 5;
+                ctx.strokeStyle = 'white';
+                ctx.strokeRect(40, 800, 400, 400); // Border around photo
+            } catch (error) {
+                console.error("------------------------------------------------------");
+                console.error("Failed to load fallback photo. Skipping photo placement.");
+            }
         }
         
 

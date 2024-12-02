@@ -1,38 +1,12 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    phone: {
-        type: String,
-        required: true,
-        match: /^[0-9]{10}$/, // Ensure it's a 10-digit number
-    },
-    state: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    city: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    cardNo: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    url: {
-        type: String,
-        required: false,
-        trim: true,
-    }
-}, {
-    timestamps: true // Automatically add `createdAt` and `updatedAt`
-});
+const UserSchema = new mongoose.Schema({
+    phone: { type: String, unique: true },
+    name: { type: [String], default: [] }, // Array of names
+    state: { type: [String], default: [] }, // Array of states
+    city: { type: [String], default: [] }, // Array of cities
+    cardNo: { type: [String], default: [] }, // Array of card numbers
+    url: { type: [String], default: [] }, // Array of URLs
+}, { timestamps: true });
 
-export const User = mongoose.model("User", userSchema)
+export const User = mongoose.model("User", UserSchema)

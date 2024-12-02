@@ -11,9 +11,9 @@ const __dirname = path.dirname(__filename);
 import { convertHeicToJpg } from './heifConverter.js'; // Ensure the correct file extension for your module
 
 
-export const generateMemberCard = async ({ photoPath, templatePath, name, state, city, phone }, outputDir) => {
+export const generateMemberCard = async ({ photoPath, templatePath, name, state, city, phone,cardNo }, outputDir) => {
     // Canvas dimensions
-    const fallBackPhoto= path.join(__dirname, '../../public/templates/aklish.jpg');
+    const fallBackPhoto= path.join(__dirname, '../../public/templates/akhilesh.png');
     const width = 856;
     const height = 540;
     const canvas = createCanvas(width, height);
@@ -82,11 +82,12 @@ export const generateMemberCard = async ({ photoPath, templatePath, name, state,
        
         
         ctx.fillStyle = '#000';
-        ctx.fillText(`Name: ${name}`, 20, 280);
-        ctx.fillText(`Address: ${city}, ${state}`, 20, 330);
+        ctx.fillText(`Name: ${name}`, 17, 280);
+        ctx.fillText(`Address: ${city}, ${state}`, 17, 330);
         if(phone){
-            ctx.fillText(`Contact: ${phone}`, 20, 380);
+            ctx.fillText(`Contact: ${phone}`, 17, 380);
         }
+        ctx.fillText(`Card No: ${cardNo}`, 17, 380);
         // Save the generated card
         const imageId = uuidv4();
         const outputPath = path.join(outputDir, `${imageId}.png`);
